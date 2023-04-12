@@ -5,10 +5,10 @@ files=$(find data/*)
 echo '================================================================================'
 echo 'load denormalized'
 echo '================================================================================'
-time ./load_denormalized_loop.sh "$files"
-#for file in $files; do
-    #time unzip -p "$file" | sed 's/\\u0000//g' | psql postgresql://postgres:pass@localhost:11872/ -c "COPY tweets_jsonb (data) FROM STDIN csv quote e'\x01' delimiter e'\x02';"
-#done
+#time ./load_denormalized_loop.sh "$files"
+for file in $files; do
+    time unzip -p "$file" | sed 's/\\u0000//g' | psql postgresql://postgres:pass@localhost:11872/ -c "COPY tweets_jsonb (data) FROM STDIN csv quote e'\x01' delimiter e'\x02';"
+done
 
 echo '================================================================================'
 echo 'load pg_normalized'
